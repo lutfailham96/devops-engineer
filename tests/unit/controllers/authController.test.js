@@ -14,19 +14,19 @@ describe('Test auth routes', () => {
     fullname: 'Ilham L.',
   }
 
-  test('Login', async () => {
-    const response = await request(app)
-      .post('/auth/login')
-      .set('Content-type', 'application/json')
-      .send(defaultUser);
-    expect(response.statusCode).toBe(httpStatus.OK);
-  });
-
   test('Register', async () => {
     const response = await request(app)
       .post('/auth/register')
       .set('Content-type', 'application/json')
       .send(defaultNewUser);
     expect(response.statusCode).toBe(httpStatus.CREATED);
+  });
+
+  test('Login', async () => {
+    const response = await request(app)
+      .post('/auth/login')
+      .set('Content-type', 'application/json')
+      .send(defaultUser);
+    expect(response.statusCode).toBe(httpStatus.OK);
   });
 });
