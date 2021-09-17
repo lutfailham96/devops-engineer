@@ -31,7 +31,7 @@ app.use((err, req, res, next) => {
   if (err && err.error && err.error.isJoi) {
     res.status(400).json({
       status: 400,
-      message: err.error.toString()
+      message: err.error.toString(),
     });
   } else {
     next(err);
