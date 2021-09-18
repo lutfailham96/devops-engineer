@@ -4,3 +4,6 @@
 # Node files
 node_modules/
 package-lock.json
+
+# configuration file
+.env
