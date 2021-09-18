@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true }));
 
 // main route
 app.get('/', async (req, res) => {
-  return res.sendWrapped(`You're success`, httpStatus.OK);
+  return res.sendWrapped(`You're success`, httpStatus.BAD_REQUEST);
 });
 
 // import routes
