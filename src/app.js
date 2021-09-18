@@ -31,6 +31,11 @@ app.get('/', async (req, res) => {
 // import routes
 app.use(router);
 
+// 404 handler
+app.use(async (req, res, next) => {
+  return res.sendWrapped('Not found', httpStatus.NOT_FOUND);
+});
+
 // handle validation errors
 app.use((err, req, res, next) => {
   if (err && err.error && err.error.isJoi) {
