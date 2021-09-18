@@ -23,6 +23,11 @@ app.use(express.json());
 // parse urlencoded request body
 app.use(express.urlencoded({ extended: true }));
 
+// main route
+app.get('/', async (req, res) => {
+  return res.sendWrapped(`You're success`, httpStatus.OK);
+});
+
 // import routes
 app.use(router);
 
