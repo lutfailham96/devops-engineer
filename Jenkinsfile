@@ -1,5 +1,3 @@
-import groovyx.gpars.csp.plugAndPlay.GConsole
-
 def lastSuccessfulBuild(passedBuilds, build) {
     if ((build != null) && (build.result != 'SUCCESS')) {
         passedBuilds.add(build)
