@@ -25,9 +25,20 @@ def getChangeLog(passedBuilds) {
 def getChangeSet() {
     return currentBuild.changeSets.collect { cs ->
         cs.collect { entry ->
-            "* ${entry.author.fullName}: ${entry.msg}"
+            "- ${entry.msg}"
         }.join("\n")
     }.join("\n")
+}
+
+def sendNotification() {
+  script {
+     def changeSet = getChangeSet()
+     if (changeSet?.trim()) {
+       echo "Changeset is empty"
+     } else {
+       echo "Changes: ${changeSet}"
+     }
+  }
 }
 
 pipeline {
@@ -50,10 +61,7 @@ pipeline {
                 label 'master'
             }
             steps {
-                script {
-                    log = getChangeSet()
-                    echo "Log: ${log}"
-                }
+                sendNotification()
             }
         }
     }
