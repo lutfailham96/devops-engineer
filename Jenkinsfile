@@ -22,20 +22,18 @@ def getChangeLog(passedBuilds) {
     return log;
 }
 
+// Fetching change set from Git
 def getChangeSet() {
-    return currentBuild.changeSets.collect { cs ->
-        cs.collect { entry ->
-            "- ${entry.msg}"
-        }.join("\n")
+  return currentBuild.changeSets.collect { cs ->
+    cs.collect { entry ->
+        "* ${entry.msg}"
     }.join("\n")
+  }.join("\n")
 }
 
-def sendNotification(String changeSet) {
-  if (changeSet?.trim()) {
-    echo "Changeset is empty"
-  } else {
-    echo "Changes: ${changeSet}"
-  }
+def sendNotification() {
+  def changeSet = getChangeSet()
+  echo "Changes: ${changeSet}"
 }
 
 pipeline {
@@ -59,8 +57,7 @@ pipeline {
             }
             steps {
                 script {
-                  changeSet = getChangeSet()
-                  sendNotification(changeSet)
+                  sendNotification()
                 }
             }
         }
