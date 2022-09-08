@@ -30,14 +30,11 @@ def getChangeSet() {
     }.join("\n")
 }
 
-def sendNotification() {
-  script {
-     def changeSet = getChangeSet()
-     if (changeSet?.trim()) {
-       echo "Changeset is empty"
-     } else {
-       echo "Changes: ${changeSet}"
-     }
+def sendNotification(String changeSet) {
+  if (changeSet?.trim()) {
+    echo "Changeset is empty"
+  } else {
+    echo "Changes: ${changeSet}"
   }
 }
 
@@ -61,7 +58,10 @@ pipeline {
                 label 'master'
             }
             steps {
-                sendNotification()
+                script {
+                  changeSet = getChangeSet()
+                  sendNotification(changeSet)
+                }
             }
         }
     }
