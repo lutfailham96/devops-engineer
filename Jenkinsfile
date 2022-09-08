@@ -32,8 +32,12 @@ def getChangeSet() {
 }
 
 def sendNotification() {
+  String changes = '• N/A'
   def changeSet = getChangeSet()
-  echo "Changes: ${changeSet}"
+  if (changeSet?.trim()) {
+    changes = changeSet
+  }
+  echo "Changelog: ${changes}"
 }
 
 pipeline {
