@@ -1,32 +1,73 @@
+def lastSuccessfulBuild(passedBuilds, build) {
+    if ((build != null) && (build.result != 'SUCCESS')) {
+        passedBuilds.add(build)
+        lastSuccessfulBuild(passedBuilds, build.getPreviousBuild())
+    }
+}
+
+@NonCPS
+def getChangeLog(passedBuilds) {
+    def log = ""
+    for (int x = 0; x < passedBuilds.size(); x++) {
+        def currentBuild = passedBuilds[x];
+        def changeLogSets = currentBuild.rawBuild.changeSets
+        for (int i = 0; i < changeLogSets.size(); i++) {
+            def entries = changeLogSets[i].items
+            for (int j = 0; j < entries.length; j++) {
+                def entry = entries[j]
+                log += "* ${entry.msg} by ${entry.author} \n"
+            }
+        }
+    }
+    return log;
+}
+
+def getChangeSet() {
+    return currentBuild.changeSets.collect { cs ->
+        cs.collect { entry ->
+            "* ${entry.author.fullName}: ${entry.msg}"
+        }.join("\n")
+    }.join("\n")
+}
+
 pipeline {
-    agent any
+    agent none
+    options {
+        skipDefaultCheckout()
+    }
     stages {
         stage('SCM Checkout') {
+            agent {
+                label 'master'
+            }
             steps {
-                sh '''#!/bin/bash
-                   cd "/var/jenkins_home/workspace/devops-engineer"
-                   git checkout -f main
-                   git merge --ff-only origin/main
-                '''
+                checkout scm
+                stash name: 'ws', includes: '**'
             }
         }
-        stage('Test') {
-            steps {
-                echo 'Run unit tests from the source code'
-                sh '''#!/bin/bash
-                   cd "/var/jenkins_home/workspace/devops-engineer"
-                   npm run test
-                '''
+        stage('Get Changelog') {
+            agent {
+                label 'master'
             }
-        }
-        stage('Deploy') {
             steps {
-                echo 'Deploy project to server'
-                sh '''#!/bin/bash
-                   cd "/var/jenkins_home/workspace/devops-engineer"
-                   cp -apf ./* "/var/project/"
-                '''
+                script {
+                    def changeLogSets = currentBuild.changeSets
+                    echo("changeSets=" + changeLogSets)
+                    for (int i = 0; i < changeLogSets.size(); i++) {
+                        def entries = changeLogSets[i].items
+                        for (int j = 0; j < entries.length; j++) {
+                            def entry = entries[j]
+                            echo "${entry.commitId} by ${entry.author} on ${new Date(entry.timestamp)}: ${entry.msg}"
+                            def files = new ArrayList(entry.affectedFiles)
+                            for (int k = 0; k < files.size(); k++) {
+                                def file = files[k]
+                                echo " ${file.editType.name} ${file.path}"
+                            }
+                        }
+                    }
+                }
             }
         }
     }
 }
+
