@@ -26,7 +26,7 @@ def getChangeLog(passedBuilds) {
 def getChangeSet() {
   return currentBuild.changeSets.collect { cs ->
     cs.collect { entry ->
-        "* ${entry.msg}"
+        "• ${entry.msg}"
     }.join("\n")
   }.join("\n")
 }
