@@ -56,7 +56,7 @@ def generateJson(String notificationType = 'report', String discordId = '') {
           ],
           [
             name: 'Build Number',
-            value: "${env.jenkins_job_number}"
+            value: "#${env.jenkins_job_number}"
           ],
           [
             name: 'Jenkins Job URL',
