@@ -9,7 +9,7 @@ def getChangeSet() {
   try {
     changeSet = currentBuild.changeSets.last().collect { entry ->
       "• ${entry.msg}"
-    }.join("\\n")
+    }.join("\n")
   } catch (err) {
     echo "Error get changeset: ${err}"
   }
