@@ -18,7 +18,7 @@ def getLatestChangeSet() {
     lastSuccessfulBuild(passedBuild, currentBuild)
     for (build in passedBuild) {
       for (entry in build.changeSets.last()) {
-        changeSet += "• ${entry.msg}"
+        changeSet += "\u2022 ${entry.msg}"
       }
     }
   } catch (err) {
@@ -35,7 +35,7 @@ def getChangeSet() {
   def changeSet = ""
   try {
     changeSet = currentBuild.changeSets.last().collect { entry ->
-      "• ${entry.msg}"
+      "\u2022 ${entry.msg}"
     }.join("\n")
   } catch (err) {
     echo "Error get changeset: ${err}"
@@ -50,9 +50,9 @@ def getChangeSet() {
 def getAllChangeSet() {
   return currentBuild.changeSets.collect { cs ->
     cs.collect { entry ->
-      "• ${entry.msg}"
-    }.join("\\n")
-  }.join("\\n")
+      "\u2022 ${entry.msg}"
+    }.join("\n")
+  }.join("\n")
 }
 
 /**
