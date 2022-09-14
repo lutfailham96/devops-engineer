@@ -16,8 +16,8 @@ def getLatestChangeSet(passedBuilds) {
   try {
     for (build in passedBuilds) {
       echo "${build}"
-      if (build.rawBuild.changeSets.size() > 0) {
-        for (entry in build.rawBuild.changeSets.last()) {
+      if (build.changeSets.size() > 0) {
+        for (entry in build.changeSets.last()) {
           echo "From this: ${build}"
           changeSet += "\u2022 ${entry.msg}\n"
         }
