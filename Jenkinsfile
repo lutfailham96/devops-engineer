@@ -188,6 +188,7 @@ pipeline {
             }
             steps {
                 script {
+                  sh 'thismustfailed'
                   sendNotification()
                 }
             }
