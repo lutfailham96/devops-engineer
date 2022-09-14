@@ -190,10 +190,16 @@ pipeline {
             steps {
                 script {
                   //sh 'thismustfailed'
-                  sendNotification()
+                  //sendNotification()
+                  echo "test"
                 }
             }
         }
+    }
+    post {
+      always {
+        sendNotification()
+      }
     }
 }
 
