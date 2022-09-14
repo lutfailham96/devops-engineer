@@ -17,8 +17,10 @@ def getLatestChangeSet() {
     // collect all
     lastSuccessfulBuild(passedBuild, currentBuild)
     for (build in passedBuild) {
-      for (entry in build.changeSets.last()) {
-        changeSet += "\u2022 ${entry.msg}\n"
+      if (build.changeSets.size() > 0) {
+        for (entry in build.changeSets.last()) {
+          changeSet += "\u2022 ${entry.msg}\n"
+        }
       }
     }
   } catch (err) {
@@ -188,7 +190,7 @@ pipeline {
             }
             steps {
                 script {
-                  //sh 'thismustfailed'
+                  sh 'thismustfailed'
                   sendNotification()
                 }
             }
