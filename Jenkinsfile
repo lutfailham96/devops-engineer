@@ -190,7 +190,7 @@ pipeline {
             }
             steps {
                 script {
-                  sh 'thismustfailed'
+                  //sh 'thismustfailed'
                   sendNotification()
                 }
             }
