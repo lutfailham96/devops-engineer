@@ -198,7 +198,9 @@ pipeline {
     }
     post {
       always {
-        sendNotification()
+        script {
+          sendNotification()
+        }
       }
     }
 }
