@@ -16,10 +16,8 @@ def getLatestChangeSet() {
     def passedBuilds = []
     lastSuccessfulBuild(passedBuilds, currentBuild)
     for (build in passedBuilds) {
-      echo "${build}"
       if (build.changeSets.size() > 0) {
         for (entry in build.changeSets.last()) {
-          echo "From this: ${build}"
           changeSet += "\u2022 ${entry.msg}\n"
         }
       }
