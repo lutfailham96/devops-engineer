@@ -18,7 +18,7 @@ def getLatestChangeSet() {
     lastSuccessfulBuild(passedBuild, currentBuild)
     for (build in passedBuild) {
       for (entry in build.changeSets.last()) {
-        changeSet += "\u2022 ${entry.msg}"
+        changeSet += "\u2022 ${entry.msg}\n"
       }
     }
   } catch (err) {
