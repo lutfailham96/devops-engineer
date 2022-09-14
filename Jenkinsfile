@@ -4,7 +4,7 @@ import groovy.json.*
  * Collect all build until reach last successful build
  */
 def lastSuccessfulBuild(passedBuilds, build) {
-  if ((build != null) && (build.result != 'SUCCESS')) {
+  if (((build != null) && (build.result != 'SUCCESS')) || (build == currentBuild)) {
     passedBuilds.add(build)
     lastSuccessfulBuild(passedBuilds, build.getPreviousBuild())
   }
