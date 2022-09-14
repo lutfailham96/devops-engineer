@@ -1,5 +1,32 @@
 import groovy.json.*
 
+/*
+ * Collect all build until reach last successful build
+ */
+def lastSuccessfulBuild(passedBuilds, build) {
+  if ((build != null) && (build.result != 'SUCCESS')) {
+    passedBuilds.add(build)
+    lastSuccessfulBuild(passedBuilds, build.getPreviousBuild())
+  }
+}
+
+def getLatestChangeSet() {
+  def changeSet = ""
+  def passedBuild = []
+  try {
+    // collect all
+    lastSuccessfulBuild(passedBuild, currentBuild)
+    for (build in passedBuild) {
+      for (entry in build.changeSets.last()) {
+        changeSet += "• ${entry.msg}"
+      }
+    }
+  } catch (err) {
+    echo "Error get changeset: ${err}"
+  }
+  return changeSet
+}
+
 /**
  * Get latest build changes
  * @return String
@@ -123,7 +150,7 @@ def sendNotification(String notificationType = 'report', String discordId = '') 
     env.jenkins_blue_ocean_base_url = 'http://localhost:8080/blue/organizations/jenkins'
     env.jenkins_name = 'System'
     def changes = '• N/A'
-    def changeSet = getChangeSet()
+    def changeSet = getLatestChangeSet
     if (changeSet?.trim()) {
       changes = changeSet
     }
