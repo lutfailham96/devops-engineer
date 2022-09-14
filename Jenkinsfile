@@ -10,7 +10,6 @@ def lastSuccessfulBuild(passedBuilds, build) {
   }
 }
 
-@NonCPS
 def getLatestChangeSet() {
   def changeSet = ""
   try {
