@@ -150,7 +150,7 @@ def sendNotification(String notificationType = 'report', String discordId = '') 
     env.jenkins_blue_ocean_base_url = 'http://localhost:8080/blue/organizations/jenkins'
     env.jenkins_name = 'System'
     def changes = '• N/A'
-    def changeSet = getLatestChangeSet
+    def changeSet = getLatestChangeSet()
     if (changeSet?.trim()) {
       changes = changeSet
     }
