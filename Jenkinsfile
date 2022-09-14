@@ -199,7 +199,9 @@ pipeline {
     post {
       always {
         script {
-          sendNotification()
+          node('master') {
+            sendNotification()
+          }
         }
       }
     }
