@@ -10,15 +10,15 @@ def lastSuccessfulBuild(passedBuilds, build) {
   }
 }
 
+@NonCPS
 def getLatestChangeSet() {
   def changeSet = ""
-  def passedBuild = []
   try {
-    // collect all
+    def passedBuild = []
     lastSuccessfulBuild(passedBuild, currentBuild)
     for (build in passedBuild) {
-      if (build.changeSets.size() > 0) {
-        for (entry in build.changeSets.last()) {
+      if (build.rawBuild.changeSets.size() > 0) {
+        for (entry in build.rawBuild.changeSets.last()) {
           changeSet += "\u2022 ${entry.msg}\n"
         }
       }
